@@ -1,6 +1,7 @@
 package ru.skillsmart.recursion;
 
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 public class Part2 {
 
@@ -16,17 +17,20 @@ public class Part2 {
     //проверка, является ли строка палиндромом
     public static boolean handlePalyndrome(String stringToVerify) {
         stringToVerify = stringToVerify.replaceAll(" ", "").toLowerCase();
-        return isPalyndrome(stringToVerify);
+        LinkedList<Character> listToVerify = stringToVerify.chars().mapToObj(c -> (char) c)
+                .collect(Collectors.toCollection(LinkedList::new));
+
+        return isPalyndrome(listToVerify);
     }
 
-    private static boolean isPalyndrome(String stringToVerify) {
-        if (stringToVerify.length() < 2)
+    private static boolean isPalyndrome(LinkedList<Character> listToVerify) {
+        if (listToVerify.size() < 2)
             return true;
 
-        if (stringToVerify.charAt(0) != stringToVerify.charAt(stringToVerify.length() - 1)) {
+        if (!listToVerify.pollFirst().equals(listToVerify.pollLast())) {
             return false;
         }
-        return isPalyndrome(stringToVerify.substring(1, stringToVerify.length() - 1));
+        return isPalyndrome(listToVerify);
     }
 
 }
