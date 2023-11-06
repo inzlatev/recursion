@@ -7,35 +7,43 @@ import java.util.LinkedList;
 public class Part4 {
 
     //7. нахождение второго максимального числа в списке (с учётом, что максимальных может быть несколько, если они равны)
-    public static int findSecondMaxValue(ArrayList<Integer> list) {
-        int initialMaxValue = list.get(0);
-        return findValueRecursive(list, initialMaxValue, Integer.MIN_VALUE, 1);
+    public static <T extends Comparable<T>> T findSecondMaxValue(ArrayList<T> list) {
+        T initialMaxValue = list.get(0);
+        T initialSecondMaxValue = list.get(1);
+
+        if (initialMaxValue.compareTo(initialSecondMaxValue) < 0) {
+            T tempValue = initialMaxValue;
+            initialMaxValue = initialSecondMaxValue;
+            initialSecondMaxValue = tempValue;
+        }
+
+        return findValueRecursive(list, initialMaxValue, initialSecondMaxValue, 2);
     }
 
-    private static int findValueRecursive(ArrayList<Integer> list, int maxValue, int secondMaxValue, int currentPosition) {
+    private static <T extends Comparable<T>> T findValueRecursive(ArrayList<T> list, T maxValue, T secondMaxValue, int currentPosition) {
         if (currentPosition == list.size()) {
             return secondMaxValue;
         }
-        int currentValue = list.get(currentPosition);
+        T currentValue = list.get(currentPosition);
 
-        if (currentValue > maxValue) {
+        if (currentValue.compareTo(maxValue) > 0) {
             secondMaxValue = maxValue;
             maxValue = currentValue;
-        } else if (currentValue > secondMaxValue) {
+        } else if (currentValue.compareTo(secondMaxValue) > 0) {
             secondMaxValue = currentValue;
         }
         return findValueRecursive(list, maxValue, secondMaxValue, ++currentPosition);
     }
 
     //8. поиск всех файлов в заданном каталоге, включая файлы, расположенные в подкаталогах произвольной вложенности
-    public static LinkedList<File> findFiles(String directory, int deepnessToGo) {
+//    public static LinkedList<File> findFiles(String directory, int deepnessToGo) {
+//
+//        LinkedList<File> filesList = new LinkedList<>();
+//
+//        return findFilesRecursive(directory, filesList, deepnessToGo);
+//    }
 
-        LinkedList<File> filesList = new LinkedList<>();
-
-        return findFilesRecursive(directory, filesList, deepnessToGo);
-    }
-
-    private static LinkedList<File> findFilesRecursive(String directory, LinkedList<File> filesList, int deepnessToGo) {
+    public static LinkedList<File> findFilesRecursive(String directory, LinkedList<File> filesList, int deepnessToGo) {
 
         File fileDirectory = new File(directory);
         File[] files = fileDirectory.listFiles();

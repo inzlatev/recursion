@@ -8,8 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static ru.skillsmart.recursion.Part4.findFiles;
-import static ru.skillsmart.recursion.Part4.findSecondMaxValue;
+import static ru.skillsmart.recursion.Part4.*;
 
 public class Part4Test {
 
@@ -26,8 +25,8 @@ public class Part4Test {
     public void checkFindFiles() {
         String directory = "C:\\Windows";
 
-        LinkedList<File> files0 = findFiles(directory, 0);
-        LinkedList<File> files1 = findFiles(directory, 1);
+        LinkedList<File> files0 = findFilesRecursive(directory, new LinkedList<>(), 0);
+        LinkedList<File> files1 = findFilesRecursive(directory, new LinkedList<>(), 1);
         assertTrue(files1.size() > files0.size());
         File fileInRoot = new File("C:\\Windows\\notepad.exe");
         File fileInFolder = new File("C:\\Windows\\Logs\\StorGroupPolicy.log");
